@@ -51,17 +51,19 @@ fn browse_plugins() -> Box<dyn kas::Window> {
         #[layout(column)]
         #[widget(config=noauto)]
         struct {
-            #[widget] display: impl HasString = Label::new("Search Plugins:   ".to_string()),
-            #[widget] searchbox: EditBox = EditBox::new(""),
-            #[widget(handler = search)] search_button = TextButton::new_msg("Search", ()),
-            #[widget] list: EditBox = EditBox::new("Search results will appear here!").editable(false).multi_line(true)
+            #[widget] display: impl HasString = Label::new("Enter Project ID:   ".to_string()),
+            #[widget] project_id: EditBox = EditBox::new(""),
+            #[widget(handler = install)] search_button = TextButton::new_msg("Install Mod", ()),
+            #[widget] output: EditBox = EditBox::new("Installation output will appear here").editable(false).multi_line(true)
         }
         impl {
-            fn search(&mut self, _mgr: &mut Manager, _: ()) -> Response<VoidMsg> {
-                // Set Loading message
-                self.list.set_string("Loading results...".to_string());
-                plugins::search_plugins(self.searchbox.get_str().to_string());
-                Response::None
+            fn install(&mut self, _mgr: &mut Manager, _: ()) -> Response<VoidMsg> {
+                self.output.set_string(String::from("Getting latest download URL..."));
+                println!(":: finding latest download URL...");
+                let latest = plugins::get_latest_plugin(self.project_id.get_string());
+                self.output.set_string(format!("Got latest download URL: {}", latest));
+                println!(":: got latest download URL: {}", latest);
+               Response::None
             }
         }
         impl kas::WidgetConfig {
@@ -78,8 +80,12 @@ fn browse_plugins() -> Box<dyn kas::Window> {
         }
     };
 
+<<<<<<< HEAD
     let mut window = Window::new("Volt - Browse Plugins", content);
     window.set_restrict_dimensions(true, true);
+=======
+    let window = Window::new("Volt - Install Plugins", content);
+>>>>>>> :sparkles: Get basic API request working
     Box::new(window)
 }
 fn main() -> Result<(), kas_wgpu::Error> {
