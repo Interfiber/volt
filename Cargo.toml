@@ -1,0 +1,12 @@
+[package]
+name = "volt"
+version = "0.1.0"
+authors = ["Interfiber"]
+edition = "2018"
+
+[dependencies]
+kas = "0.7.0"
+kas-theme = "0.7.0"
+kas-wgpu = "0.7.0"
+native-dialog = "0.5.5"
+curl = "0.4.35"
