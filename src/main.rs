@@ -5,6 +5,8 @@ use kas::widget::{Label, TextButton, Window, EditBox};
 use kas::class::HasStr;
 // Modules
 mod plugins;
+mod http;
+mod minecraft;
 
 // Browse plugins will allow the user to browse curseforge plugins
 fn browse_plugins() -> Box<dyn kas::Window> {
@@ -25,6 +27,13 @@ fn browse_plugins() -> Box<dyn kas::Window> {
                 let latest = plugins::get_latest_plugin(self.project_id.get_string());
                 self.output.set_string(format!("Got latest download URL: {}", latest));
                 println!(":: got latest download URL: {}", latest);
+                self.output.set_string(format!("Downloading mod..."));
+                // Download from the URL
+                plugins::download(latest);
+                self.output.set_string(format!("Installing mod..."));
+                let name = plugins::get_plugin_name(self.project_id.get_string());
+                plugins::install_mod(name);
+                self.output.set_string(format!("Mod Installed! Now open minecraft!"));
                Response::None
             }
         }
@@ -41,7 +50,7 @@ fn browse_plugins() -> Box<dyn kas::Window> {
             }
         }
     };
-    let window = Window::new("Volt - Browse Plugins", content);
+    let window = Window::new("Volt - Install Plugins", content);
     Box::new(window)
 }
 fn main() -> Result<(), kas_wgpu::Error> {

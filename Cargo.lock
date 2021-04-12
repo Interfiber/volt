@@ -2346,6 +2346,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
+name = "subprocess"
+version = "0.2.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "69b9ad6c3e1b525a55872a4d2f2d404b3c959b7bbcbfd83c364580f68ed157bd"
+dependencies = [
+ "libc",
+ "winapi 0.3.9",
+]
+
+[[package]]
 name = "syn"
 version = "1.0.65"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2541,6 +2551,7 @@ dependencies = [
  "kas-theme",
  "kas-wgpu",
  "serde_json",
+ "subprocess",
 ]
 
 [[package]]

@@ -1,12 +1,11 @@
 use serde_json::{Value};
-use isahc::ReadResponseExt;
+use crate::http;
 
 pub static FORGE_API_URL: &str = "https://addons-ecs.forgesvc.net/api/v2/addon";
 // https://addons-ecs.forgesvc.net/api/v2/addon/60089/files
 pub fn get_latest_plugin(proj_id: String) -> String {
     println!(":: making curseforge API request...");
-    let mut response = isahc::get(&format!("{}/{}/files", FORGE_API_URL, proj_id)).expect("Failed to make API request");
-    let body_text = response.text().expect("Failed to get response text");
+    let body_text = http::get(format!("{}/{}/files", FORGE_API_URL, proj_id));
     let body: Value = serde_json::from_str(&body_text).expect("Failed to parse response body");
     println!(":: getting latest download URL...");
     // NOTE: The last index of the returned json array is the latest one added to the array(Like a stack)
@@ -15,5 +14,27 @@ pub fn get_latest_plugin(proj_id: String) -> String {
     // Get the last index of the array
     let last = body.as_array().unwrap().last().unwrap();
     println!("{}", last);
-    return last["downloadUrl"].to_string();
+    return last["downloadUrl"].to_string().replace("\"", "");
+}
+pub fn get_plugin_name(proj_id: String) -> String {
+    let body_text = http::get(format!("{}/{}", FORGE_API_URL, proj_id));
+    let body: Value = serde_json::from_str(&body_text).expect("Failed to parse response body");
+    println!(":: getting mod name...");
+
+    // Get the display name on minecraft forge
+    let forge_name = body["name"].to_string().replace("\"", "");
+
+    // Make it all lower case, and replace - with _, and spaces with _
+    let safe_name = forge_name.replace("-", "_").replace(" ", "_");
+    // Return the safe name
+    return safe_name;
+}
+pub fn download(url: String) {
+    http::save_get(url, String::from("mod.jar"));
+}
+pub fn install_mod(name: String){
+    let mc_folder = crate::minecraft::get_minecraft_folder();
+    std::fs::copy("mod.jar", &format!("{}/mods/{}_latest_volt.jar", mc_folder, name)).expect("Failed to copy mod into install folder");
+    println!(":: removing mod.jar");
+    std::fs::remove_file("mod.jar").expect("Failed to remove mod.jar");
 }
