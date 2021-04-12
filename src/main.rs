@@ -79,13 +79,7 @@ fn browse_plugins() -> Box<dyn kas::Window> {
             }
         }
     };
-
-<<<<<<< HEAD
     let mut window = Window::new("Volt - Browse Plugins", content);
-    window.set_restrict_dimensions(true, true);
-=======
-    let window = Window::new("Volt - Install Plugins", content);
->>>>>>> :sparkles: Get basic API request working
     Box::new(window)
 }
 fn main() -> Result<(), kas_wgpu::Error> {
