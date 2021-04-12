@@ -54,10 +54,12 @@ fn browse_plugins() -> Box<dyn kas::Window> {
             #[widget] display: impl HasString = Label::new("Search Plugins:   ".to_string()),
             #[widget] searchbox: EditBox = EditBox::new(""),
             #[widget(handler = search)] search_button = TextButton::new_msg("Search", ()),
-            #[widget] list = Label::new("Search Results will appear here."),
+            #[widget] list: EditBox = EditBox::new("Search results will appear here!").editable(false).multi_line(true)
         }
         impl {
             fn search(&mut self, _mgr: &mut Manager, _: ()) -> Response<VoidMsg> {
+                // Set Loading message
+                self.list.set_string("Loading results...".to_string());
                 plugins::search_plugins(self.searchbox.get_str().to_string());
                 Response::None
             }
