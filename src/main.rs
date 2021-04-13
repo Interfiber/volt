@@ -37,15 +37,20 @@ fn browse_plugins() -> Box<dyn kas::Window> {
                     let _ = self.output.set_string(String::from("Getting latest download URL..."));
                     println!(":: finding latest download URL...");
                     let latest = plugins::get_latest_plugin(self.project_id.get_string());
-                    let _ = self.output.set_string(format!("Got latest download URL: {}", latest));
-                    println!(":: got latest download URL: {}", latest);
-                    let _ = self.output.set_string(format!("Downloading mod..."));
-                    // Download from the URL
-                    plugins::download(latest);
-                    let _ = self.output.set_string(format!("Installing mod..."));
-                    let name = plugins::get_plugin_name(self.project_id.get_string());
-                    plugins::install_mod(name);
-                    let _ = self.output.set_string(format!("Mod Installed! Now open minecraft!"));
+                    if latest == "PLUGIN_NOT_FOUND" {
+                        println!(":: plugin not found");
+                        let _ = self.output.set_string(format!("Failed to find latest version: {}", latest));
+                    }else {
+                        let _ = self.output.set_string(format!("Got latest download URL: {}", latest));
+                        println!(":: got latest download URL: {}", latest);
+                        let _ = self.output.set_string(format!("Downloading mod..."));
+                        // Download from the URL
+                        plugins::download(latest);
+                        let _ = self.output.set_string(format!("Installing mod..."));
+                        let name = plugins::get_plugin_name(self.project_id.get_string());
+                        plugins::install_mod(name);
+                        let _ = self.output.set_string(format!("Mod Installed! Now open minecraft!"));
+                    }
                 }
                Response::None
             }

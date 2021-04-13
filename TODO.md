@@ -5,7 +5,7 @@
 3. Config file support(Set theme, etc, etc)
 4. Get Mod uninstallation working
 5. Package up volt
-6. DONEGet small website working
+6. DONE Get small website working
 7. DONE Get docs working
-8. Write mode TODO stuff
+8. DONE Write mode TODO stuff
 9. DONE Oh ya, and get rid of some warnings.
