@@ -16,5 +16,3 @@ serde_json = "1.0.64"
 # Download files using cURL. Because using a http library is annoying. Plus JAR files are
 # Not UTF-8, and a String can only be UTF-8
 subprocess = "0.2.6"
-# XDG base directory
-xdg = "2.2.0"

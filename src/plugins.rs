@@ -36,5 +36,11 @@ pub fn install_mod(name: String){
     let mc_folder = crate::minecraft::get_minecraft_folder();
     std::fs::copy("mod.jar", &format!("{}/mods/{}_latest_volt.jar", mc_folder, name)).expect("Failed to copy mod into install folder");
     println!(":: removing mod.jar");
-    std::fs::remove_file("mod.jar").expect("Failed to remove mod.jar");
+    match std::fs::remove_file("mod.jar"){
+        Ok(_) => print!(""),
+        Err(err) => {
+            println!(":: failed to remove mod.jar!");
+            println!(":: {}", err);
+        }
+    }
 }
