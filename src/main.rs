@@ -6,6 +6,7 @@ use kas::class::HasStr;
 // Modules
 mod plugins;
 mod http;
+mod util;
 mod minecraft;
 
 // Browse plugins will allow the user to browse curseforge plugins
@@ -22,18 +23,23 @@ fn browse_plugins() -> Box<dyn kas::Window> {
         }
         impl {
             fn install(&mut self, _mgr: &mut Manager, _: ()) -> Response<VoidMsg> {
-                self.output.set_string(String::from("Getting latest download URL..."));
-                println!(":: finding latest download URL...");
-                let latest = plugins::get_latest_plugin(self.project_id.get_string());
-                self.output.set_string(format!("Got latest download URL: {}", latest));
-                println!(":: got latest download URL: {}", latest);
-                self.output.set_string(format!("Downloading mod..."));
-                // Download from the URL
-                plugins::download(latest);
-                self.output.set_string(format!("Installing mod..."));
-                let name = plugins::get_plugin_name(self.project_id.get_string());
-                plugins::install_mod(name);
-                self.output.set_string(format!("Mod Installed! Now open minecraft!"));
+                // Check if the string is a number
+                if !util::is_number(self.project_id.get_string()){
+                    let _ = self.output.set_string("Please enter a valid project ID".to_string());
+                }else {
+                    let _ = self.output.set_string(String::from("Getting latest download URL..."));
+                    println!(":: finding latest download URL...");
+                    let latest = plugins::get_latest_plugin(self.project_id.get_string());
+                    let _ = self.output.set_string(format!("Got latest download URL: {}", latest));
+                    println!(":: got latest download URL: {}", latest);
+                    let _ = self.output.set_string(format!("Downloading mod..."));
+                    // Download from the URL
+                    plugins::download(latest);
+                    let _ = self.output.set_string(format!("Installing mod..."));
+                    let name = plugins::get_plugin_name(self.project_id.get_string());
+                    plugins::install_mod(name);
+                    let _ = self.output.set_string(format!("Mod Installed! Now open minecraft!"));
+                }
                Response::None
             }
         }
@@ -53,6 +59,7 @@ fn browse_plugins() -> Box<dyn kas::Window> {
     let window = Window::new("Volt - Install Plugins", content);
     Box::new(window)
 }
+
 fn main() -> Result<(), kas_wgpu::Error> {
     println!(":: volt has started");
     let theme = kas_theme::ShadedTheme::new()

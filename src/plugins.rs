@@ -18,7 +18,7 @@ pub fn get_latest_plugin(proj_id: String) -> String {
 }
 pub fn get_plugin_name(proj_id: String) -> String {
     let body_text = http::get(format!("{}/{}", FORGE_API_URL, proj_id));
-    let body: Value = serde_json::from_str(&body_text).expect("Failed to parse response body");
+    let body: Value = serde_json::from_str(&body_text).unwrap();
     println!(":: getting mod name...");
 
     // Get the display name on minecraft forge
