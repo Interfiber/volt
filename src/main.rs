@@ -1,7 +1,7 @@
 use kas::class::HasString;
 use kas::event::{Handler, Manager, Response, VoidMsg, Event};
 use kas::macros::make_widget;
-use kas::widget::{Label, TextButton, Window, EditBox};
+use kas::widget::*;
 use kas::class::HasStr;
 // Modules
 mod plugins;
@@ -11,17 +11,24 @@ mod minecraft;
 
 // Browse plugins will allow the user to browse curseforge plugins
 fn browse_plugins() -> Box<dyn kas::Window> {
-    // Construct a row widget, with state and children
+    // Create window content
     let content = make_widget! {
         #[layout(column)]
         #[widget(config=noauto)]
         struct {
             #[widget] display: impl HasString = Label::new("Enter Project ID:   ".to_string()),
             #[widget] project_id: EditBox = EditBox::new(""),
+            #[widget(handler = switch_mode)] switch_mode: impl HasStr = TextButton::new_msg("Show Mods", ()),
             #[widget(handler = install)] search_button = TextButton::new_msg("Install Mod", ()),
             #[widget] output: EditBox = EditBox::new("Installation output will appear here").editable(false).multi_line(true)
         }
         impl {
+            fn switch_mode(&mut self, _mgr: &mut Manager, _: ()) -> Response<VoidMsg>{
+                println!(":: finding mod list...");
+                let mods = minecraft::get_mods();
+                let _ = self.output.set_string(format!("Installed Mods:\n{}", mods));
+                Response::None
+            }
             fn install(&mut self, _mgr: &mut Manager, _: ()) -> Response<VoidMsg> {
                 // Check if the string is a number
                 if !util::is_number(self.project_id.get_string()){
