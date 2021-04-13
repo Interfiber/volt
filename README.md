@@ -45,6 +45,5 @@ Currently volt does not allow you to search mods on curseforge, but this feature
 
 ## ⚠️ Known Problems
 Below is a list of known problems in volt
-   - Will quit when the project ID includes a letter
    - Will quit when text is selected in a certain way
    - Volt will put a V at the end of any text you paste, this is a problem with the GUI library [kas](https://crates.io/crates/kas)
