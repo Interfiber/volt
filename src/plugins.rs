@@ -30,16 +30,16 @@ pub fn get_plugin_name(proj_id: String) -> String {
     return safe_name;
 }
 pub fn download(url: String) {
-    http::save_get(url, String::from("mod.jar"));
+    http::save_get(url, String::from("/tmp/mod.jar"));
 }
 pub fn install_mod(name: String){
     let mc_folder = crate::minecraft::get_minecraft_folder();
-    std::fs::copy("mod.jar", &format!("{}/mods/{}_latest_volt.jar", mc_folder, name)).expect("Failed to copy mod into install folder");
+    std::fs::copy("/tmp/mod.jar", &format!("{}/mods/{}_latest_volt.jar", mc_folder, name)).expect("Failed to copy mod into install folder");
     println!(":: removing mod.jar");
-    match std::fs::remove_file("mod.jar"){
+    match std::fs::remove_file("/tmp/mod.jar"){
         Ok(_) => print!(""),
         Err(err) => {
-            println!(":: failed to remove mod.jar!");
+            println!(":: failed to remove /tmp/mod.jar!");
             println!(":: {}", err);
         }
     }
