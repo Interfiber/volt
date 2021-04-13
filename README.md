@@ -23,8 +23,9 @@ To build volt from source you will need to have [↗️ Rust](https://rust-lang.
 cargo build --release
 ```
 
-## 💾 Manual
-
+### 💾 Manual
+For manual install, download the latest release from github. Then open the DMG and drag the app to your Applications folder. If you get a warning like below you will need to allow the app to open in ```System Preferences -> Security And Privacy```.
+![MacOS privacy error](security_error.png)
 
 ## 🖼 Screenshots
 Below are some screenshots of volt in action!
