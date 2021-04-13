@@ -1,6 +1,6 @@
 build:
 	sh build.sh
-pkg:
+pkg_mac:
 	# Create app file
 	mkdir Volt.app
 	mkdir -p Volt.app/Contents/MacOS

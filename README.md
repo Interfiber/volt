@@ -1,17 +1,21 @@
 # Volt
-Minecraft Forge Plugin Manager
+The Minecraft Forge Plugin Manager
 
 ## ℹ️ About
-Volt is a [↗️ Forge](https://minecraftforge.net/) plugin manager. It allows you to download and install plugins from [↗️ CurseForge](https://curseforge.com) with ease. This removes the chunk of time where you need to download the mod file, find your minecraft folder, and drop in the jar file.
+Everything you want to know is [here](https://interfiber.github.io/volt), the rest of this page is development docs.
 
-## 📲 Installation
-Below is instructions on how to install volt.
-
-## 📦 Package Manager
-Volt will be able to be installed with a package manager when its released.
-
-## 💻 From source
-To build volt from source you will need to have [↗️ Rust](https://rust-lang.org) installed with the ```1.52.0``` beta release set as default in [↗️ Rustup](https://rustup.rs). Then download this repo with git and run thw following inside the cloned directory
+## 👷 Building volt
+Volt requires [↗️ Rust](https://rust-lang.org) to run, it also requires ```rustc 1.52.0-beta.3``` to run. After you have that clone this repo with git and run
 ```bash
 cargo build --release
 ```
+inside the cloned folder. All code is located under ```src```
+
+## 📦 Packaging volt for Mac
+To package volt for mac simply clone this repo and run
+```bash
+make pkg_mac
+```
+
+## 📦 Packaging for Linux
+Volt on Linux is not avalible at the moment.
