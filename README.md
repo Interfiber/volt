@@ -14,7 +14,7 @@ Volt can be installed via some popular package managers
 Volt can be installed via homebrew with
 ```bash
 brew tap Interfiber/homebrew-tap
-brew install voltmc
+brew install --cask voltmc
 ```
 
 ### 💻 From Source
