@@ -17,18 +17,14 @@ brew tap Interfiber/homebrew-tap
 brew install voltmc
 ```
 
-#### 😁 Yay AUR helper
-Volt can installed with [↗️ yay](https://github.com/Jguer/yay) on arch with
-```bash
-yay -S interfiber-volt-mc
-```
-You can also use another AUR helper like [↗️ paru](https://github.com/Morganamilo/paru)
-
 ### 💻 From Source
 To build volt from source you will need to have [↗️ Rust](https://rust-lang.org) installed with the ```1.52.0``` beta release set as default in [↗️ Rustup](https://rustup.rs). Then download this repo with git and run thw following inside the cloned directory
 ```bash
 cargo build --release
 ```
+
+## 💾 Manual
+
 
 ## 🖼 Screenshots
 Below are some screenshots of volt in action!
