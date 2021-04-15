@@ -13,4 +13,18 @@ pkg_mac:
 	# Prep for disk image creation
 	ln -s /Applications dist/Applications
 	# Create disk image
-	hdiutil create Volt.dmg -ov -volname "Volt Installer" -fs HFS+ -srcfolder "dist" 
+	hdiutil create Volt.dmg -ov -volname "Volt Installer" -fs HFS+ -srcfolder "dist"
+	rm -rf dist
+pkg_linux:
+	# Generate tarball
+	mkdir dist
+	mkdir dist/config
+	mkdir dist/bin
+	cp ./target/release/volt dist/bin/volt
+	touch dist/config/basic_config.json
+	echo "{" >> dist/config/basic_config.json
+	echo "'_comment': 'Basic config file, put this in ~/.config/volt/volt.json'," >> dist/config/basic_config.json
+	echo "}" >> dist/config/basic_config.json
+	tar cvf volt_linux.tar.gz dist
+	rm -rf dist
+	echo "output file: volt_linux.tar.gz"
