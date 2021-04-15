@@ -14,8 +14,15 @@ inside the cloned folder. All code is located under ```src```
 ## 📦 Packaging volt for Mac
 To package volt for mac simply clone this repo and run
 ```bash
+cargo build --release
 make pkg_mac
 ```
 
 ## 📦 Packaging for Linux
-Volt on Linux is not avalible at the moment.
+To package volt for linux you need to have a linux machine.
+Then clone this repo and run the following command in the cloned folder
+```bash
+cargo build --release
+make pkg_linux
+```
+This will generate a tarball which will contain a example config file, and the volt binary
