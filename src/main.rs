@@ -3,11 +3,13 @@ use kas::event::{Handler, Manager, Response, VoidMsg, Event};
 use kas::macros::make_widget;
 use kas::widget::*;
 use kas::class::HasStr;
+use serde_json::Value;
 // Modules
 mod plugins;
 mod http;
 mod util;
 mod minecraft;
+mod config;
 
 // Browse plugins will allow the user to browse curseforge plugins
 fn browse_plugins() -> Box<dyn kas::Window> {
@@ -74,9 +76,25 @@ fn browse_plugins() -> Box<dyn kas::Window> {
 
 fn main() -> Result<(), kas_wgpu::Error> {
     println!(":: volt has started");
-    let theme = kas_theme::ShadedTheme::new()
-        .with_font_size(18.0);
-    kas_wgpu::Toolkit::new(theme)?
-        .with_boxed(browse_plugins())?
+    println!(":: checking for config file...");
+    if !config::config_exists(){
+        println!(":: config not found, launching with default config");
+        let theme = kas_theme::ShadedTheme::new()
+            .with_font_size(18.0);
+            kas_wgpu::Toolkit::new(theme)?
+            .with_boxed(browse_plugins())?
+            .run()
+    }else {
+        println!(":: config found, apply theme data.");
+        let config_raw = config::get_config();
+        println!(":: parsing config...");
+        let config: Value = serde_json::from_str(&config_raw).expect("Failed to parse config!");
+        println!(":: parsed config");
+        let theme = kas_theme::ShadedTheme::new()
+            .with_font_size(18.0)
+            .with_colours(&config["theme"]["default_colors"].to_string().replace("\"", ""));
+            kas_wgpu::Toolkit::new(theme)?
+            .with_boxed(browse_plugins())?
         .run()
+    }
 }
