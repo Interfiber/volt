@@ -32,26 +32,28 @@ fn browse_plugins() -> Box<dyn kas::Window> {
                 Response::None
             }
             fn install(&mut self, _mgr: &mut Manager, _: ()) -> Response<VoidMsg> {
+                // Set the output
+                let _ = self.output.set_string("== Mod Install log ==".to_string());
                 // Check if the string is a number
                 if !util::is_number(self.project_id.get_string()){
-                    let _ = self.output.set_string("Please enter a valid project ID".to_string());
+                    let _ = self.output.set_string(format!("{}\nPlease enter a valid project ID", self.output.get_string()));
                 }else {
-                    let _ = self.output.set_string(String::from("Getting latest download URL..."));
+                    let _ = self.output.set_string(format!("{}\nGetting latest download URL...", self.output.get_string()));
                     println!(":: finding latest download URL...");
                     let latest = plugins::get_latest_plugin(self.project_id.get_string());
                     if latest == "PLUGIN_NOT_FOUND" {
                         println!(":: plugin not found");
-                        let _ = self.output.set_string(format!("Failed to find latest version: {}", latest));
+                        let _ = self.output.set_string(format!("{}\nFailed to find latest version: {}", self.output.get_string(), latest));
                     }else {
-                        let _ = self.output.set_string(format!("Got latest download URL: {}", latest));
+                        let _ = self.output.set_string(format!("{}\nGot latest download URL: {}", self.output.get_string(), latest));
                         println!(":: got latest download URL: {}", latest);
-                        let _ = self.output.set_string(format!("Downloading mod..."));
+                        let _ = self.output.set_string(format!("{}\nDownloading mod...", self.output.get_string()));
                         // Download from the URL
                         plugins::download(latest);
-                        let _ = self.output.set_string(format!("Installing mod..."));
+                        let _ = self.output.set_string(format!("{}\nInstalling mod...", self.output.get_string()));
                         let name = plugins::get_plugin_name(self.project_id.get_string());
                         plugins::install_mod(name);
-                        let _ = self.output.set_string(format!("Mod Installed! Now open minecraft!"));
+                        let _ = self.output.set_string(format!("{}\nMod Installed! Now open minecraft!", self.output.get_string()));
                     }
                 }
                Response::None
