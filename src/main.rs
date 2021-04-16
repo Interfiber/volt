@@ -18,10 +18,11 @@ fn browse_plugins() -> Box<dyn kas::Window> {
         #[layout(column)]
         #[widget(config=noauto)]
         struct {
-            #[widget] display: impl HasString = Label::new("Enter Project ID:   ".to_string()),
+            #[widget] display: impl HasString = Label::new("Enter Project ID for mod to install\nOr enter mod name to uninstall".to_string()),
             #[widget] project_id: EditBox = EditBox::new(""),
             #[widget(handler = switch_mode)] switch_mode: impl HasStr = TextButton::new_msg("Show Mods", ()),
             #[widget(handler = install)] search_button = TextButton::new_msg("Install Mod", ()),
+            #[widget(handler = uninstall)] rm_button = TextButton::new_msg("Uninstall Mod", ()),
             #[widget] output: EditBox = EditBox::new("Installation output will appear here").editable(false).multi_line(true)
         }
         impl {
@@ -29,6 +30,15 @@ fn browse_plugins() -> Box<dyn kas::Window> {
                 println!(":: finding mod list...");
                 let mods = minecraft::get_mods();
                 let _ = self.output.set_string(format!("Installed Mods:\n{}", mods));
+                Response::None
+            }
+            fn uninstall(&mut self, _mgr: &mut Manager, _: ()) -> Response<VoidMsg> {
+                let _ = self.output.set_string("== Mod Uninstall log ==".to_string());
+                println!(":: prepping for uninstall...");
+                let name = self.project_id.get_string();
+                println!(":: mod name {}", name);
+                let out = plugins::remove_mod(name);
+                let _ = self.output.set_string(format!("{}\n{}", self.output.get_string(), out));
                 Response::None
             }
             fn install(&mut self, _mgr: &mut Manager, _: ()) -> Response<VoidMsg> {

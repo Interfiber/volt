@@ -50,3 +50,23 @@ pub fn install_mod(name: String){
         }
     }
 }
+pub fn remove_mod(name: String) -> String {
+    let mc_dir = crate::minecraft::get_minecraft_folder();
+    println!(":: checking for {}/mods/{}_latest_volt.jar", mc_dir, name);
+    if !std::path::Path::new(&format!("{}/mods/{}_latest_volt.jar", mc_dir, name)).exists(){
+        return "MOD_NOT_FOUND".to_string();
+    }else {
+        println!(":: removing mod file...");
+        return match std::fs::remove_file(&format!("{}/mods/{}_latest_volt.jar", mc_dir, name)) {
+            Ok(_) => {
+                print!(":: removed mod.");
+                "removed".to_string()
+            },
+            Err(err) => {
+                println!(":: PANIC!!! Failed to remove mod file.");
+                println!(":: error: {}", err);
+                err.to_string()
+            }
+        }
+    }
+}

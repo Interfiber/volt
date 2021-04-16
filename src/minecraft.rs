@@ -40,5 +40,5 @@ pub fn get_mods() -> String {
         .stdout(subprocess::Redirection::Pipe)
         .capture().unwrap()
         .stdout_str();
-    return mods.replace(".jar", "");
+    return mods.replace(".jar", "").replace("_latest_volt", "");
 }
