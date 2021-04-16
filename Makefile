@@ -25,6 +25,7 @@ pkg_linux:
 	echo "{" >> dist/config/basic_config.json
 	echo "'_comment': 'Basic config file, put this in ~/.config/volt/volt.json'," >> dist/config/basic_config.json
 	echo "}" >> dist/config/basic_config.json
+	printf "Installation:\nTo install volt copy the executable located in bin. Into your PATH.\nThen create the folder ~/.config/volt/ and place the example config located in\nconfig/basic_config.json into ~/.config/volt/volt.json" >> dist/INSTALLATION.txt
 	tar cvf volt_linux.tar.gz dist
 	rm -rf dist
 	echo "output file: volt_linux.tar.gz"
